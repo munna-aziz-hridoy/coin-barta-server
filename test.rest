@@ -1,0 +1,43 @@
+POST http://localhost:5000/api/v1/admin/add-admin
+Content-Type: application/json
+
+{
+    "name": "Munna",
+    "email": "test@gmail.com",
+    "password": "password"
+}
+
+###
+POST http://localhost:5000/api/v1/admin/login-admin
+Content-Type: application/json
+
+{
+    "name": "Munna",
+    "email": "testUpdate@gmail.com",
+    "password": "passwordUpdate"
+}
+
+###
+PATCH  http://localhost:5000/api/v1/admin/update-admin
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVcGRhdGVAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU4MjQ1MTg5fQ.1nOYPbOs4X7Sdfq3kQU1-TiytQ2sEXGFRqDmgwCgl2g
+
+{
+    "name": "Munna Update two",
+    "email": "testUpdatetwo@gmail.com",
+    "password": "passwordUpdatetwo"
+}
+
+###
+GET http://localhost:5000/api/v1/categories/get-categories
+
+###
+POST http://localhost:5000/api/v1/categories/add-category
+Content-Type: application/json
+
+{
+    "name": "test", 
+    "description": "test description"
+}
+
+#eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU4MjQzODA3fQ.ThfajumBjZJVb6FSd1FZxRncZitPJaDY8nQU4ux9lrk
