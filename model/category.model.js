@@ -5,6 +5,11 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  publish: {
+    type: Boolean,
+    require: true,
+    default: false,
+  },
   description: String,
   createdDate: {
     type: Date,

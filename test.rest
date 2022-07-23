@@ -36,8 +36,20 @@ POST http://localhost:5000/api/v1/categories/add-category
 Content-Type: application/json
 
 {
-    "name": "test", 
+    "name": "test three", 
     "description": "test description"
 }
 
+###
+PATCH http://localhost:5000/api/v1/categories/update-category?id=62d8384a7f2da326003ad012
+Content-Type: application/json
+
+{
+    "name": "new update category"
+}
+
+
+
+###
+PATCH http://localhost:5000/api/v1/categories/delete-category?id=62da2493ac042c5a8143853b
 #eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU4MjQzODA3fQ.ThfajumBjZJVb6FSd1FZxRncZitPJaDY8nQU4ux9lrk

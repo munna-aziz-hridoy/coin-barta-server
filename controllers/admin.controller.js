@@ -33,44 +33,80 @@ exports.loginAdmin = async (req, res) => {
 
 // update admin information controller
 exports.updateAdmin = async (req, res) => {
-  const { newEmail, newPassword, oldEmail, oldPassword } = req.body;
-  const filter = { email: oldEmail };
-  console.log(req.body);
+  const requestedUserEmail = req.decoded.email;
+  const { email, newPassword, oldPassword } = req.body;
+  const filter = { email: requestedUserEmail };
   const currentUser = await adminModel.findOne(filter);
-  console.log(currentUser);
-  const isPasswordMatched = await bcrypt.compare(
-    oldPassword,
-    currentUser.password
-  );
-
-  if (currentUser && isPasswordMatched) {
-    const hashedPassowrd = await bcrypt.hash(newPassword, 10);
-    const updatedDoc = {
+  let updatedDoc;
+  if (!email && !newPassword && !oldPassword) {
+    return res
+      .status(StatusCodes.FORBIDDEN)
+      .send({ success: false, message: "no value inputed" });
+  }
+  if (!newPassword && !oldPassword) {
+    updatedDoc = {
       $set: {
-        email: newEmail,
-        password: hashedPassowrd,
+        email,
       },
     };
-    const result = await adminModel.findOneAndUpdate(filter, updatedDoc);
-    if (!result) {
+  }
+  if (!email && newPassword && oldPassword) {
+    const isPasswordMatched = await bcrypt.compare(
+      oldPassword,
+      currentUser.password
+    );
+    if (isPasswordMatched) {
+      const hashedPassowrd = await bcrypt.hash(newPassword, 10);
+      updatedDoc = {
+        $set: {
+          password: hashedPassowrd,
+        },
+      };
+    } else {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .send({ success: false, message: "user not updated ooo" });
+    }
+  }
+  if (email && newPassword && oldPassword) {
+    const isPasswordMatched = await bcrypt.compare(
+      oldPassword,
+      currentUser.password
+    );
+    if (isPasswordMatched) {
+      const hashedPassowrd = await bcrypt.hash(newPassword, 10);
+      updatedDoc = {
+        $set: {
+          email,
+          password: hashedPassowrd,
+        },
+      };
+    } else {
       return res
         .status(StatusCodes.FORBIDDEN)
         .send({ success: false, message: "user not updated" });
     }
+  }
+
+  const result = await adminModel.findOneAndUpdate(filter, updatedDoc);
+  if (!result) {
     return res
-      .status(StatusCodes.OK)
-      .send({ success: true, message: "user updated" });
+      .status(StatusCodes.FORBIDDEN)
+      .send({ success: false, message: "user not updated" });
   }
   return res
-    .status(StatusCodes.FORBIDDEN)
-    .send({ success: false, message: "user not updated" });
+    .status(StatusCodes.OK)
+    .send({ success: true, message: "user updated" });
 };
 
 // check user is admin
 exports.isAdmin = async (req, res) => {
-  const { role } = req.decoded;
+  const { role, email } = req.decoded;
+
   if (role === "admin") {
-    return res.status(StatusCodes.OK).send({ success: true, admin: true });
+    return res
+      .status(StatusCodes.OK)
+      .send({ success: true, admin: true, email });
   }
   return res
     .status(StatusCodes.FORBIDDEN)

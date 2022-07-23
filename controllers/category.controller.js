@@ -18,8 +18,13 @@ exports.getCategory = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
   const id = req.query.id;
-  const result = await categoryModel.findByIdAndDelete(id);
+  const selectedCategory = await categoryModel.findById(id);
+
+  const result = await categoryModel.findByIdAndUpdate(id, {
+    publish: !selectedCategory.publish,
+  });
   res.status(StatusCodes.OK).send({ success: true, result });
+  res.send();
 };
 
 exports.updateCategory = async (req, res) => {
@@ -30,5 +35,14 @@ exports.updateCategory = async (req, res) => {
     description,
   });
 
+  res.status(StatusCodes.OK).send({ success: true, result });
+};
+
+exports.publishCategory = async (req, res) => {
+  const id = req.query.id;
+  const selectedCategory = await categoryModel.findById(id);
+  const result = await categoryModel.findByIdAndUpdate(id, {
+    publish: !selectedCategory.publish,
+  });
   res.status(StatusCodes.OK).send({ success: true, result });
 };
