@@ -24,7 +24,6 @@ exports.deleteCategory = async (req, res) => {
     publish: !selectedCategory.publish,
   });
   res.status(StatusCodes.OK).send({ success: true, result });
-  res.send();
 };
 
 exports.updateCategory = async (req, res) => {
