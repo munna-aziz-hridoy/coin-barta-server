@@ -36,9 +36,14 @@ exports.publishNews = async (req, res) => {
 
 exports.editNews = async (req, res) => {
   const id = req.query.id;
+  const editedItem = await newsCollection.findById(id);
+  console.log(editedItem);
+  const { title, image, content, category } = req.body;
   const updatedDoc = {
-    title,
-    content,
+    title: title || editedItem.title,
+    content: content || editedItem.content,
+    category: category || editedItem.category,
+    image: image || editedItem.image,
   };
   const result = await newsCollection.findByIdAndUpdate(id, updatedDoc);
   res.status(StatusCodes.OK).send({ success: true, result });
