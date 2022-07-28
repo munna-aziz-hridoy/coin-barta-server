@@ -1,20 +1,20 @@
 const { StatusCodes } = require("http-status-codes");
-const newsCollection = require("../model/news.model");
+const newsModel = require("../model/news.model");
 
 exports.getAllNews = async (req, res) => {
-  const result = await newsCollection.find({});
+  const result = await newsModel.find({});
   res.status(StatusCodes.OK).send({ success: true, result });
 };
 
 exports.getSignleNews = async (req, res) => {
   const id = req.query.id;
-  const selectedNews = await newsCollection.findById(id);
+  const selectedNews = await newsModel.findById(id);
   res.status(StatusCodes.OK).send({ success: true, result: selectedNews });
 };
 
 exports.postNews = async (req, res) => {
   const { title, image, content, category } = req.body;
-  const postedNews = new newsCollection({
+  const postedNews = new newsModel({
     title,
     image,
     content,
@@ -26,9 +26,9 @@ exports.postNews = async (req, res) => {
 
 exports.publishNews = async (req, res) => {
   const id = req.query.id;
-  const selectedNews = await newsCollection.findById(id);
+  const selectedNews = await newsModel.findById(id);
 
-  const result = await newsCollection.findByIdAndUpdate(id, {
+  const result = await newsModel.findByIdAndUpdate(id, {
     publish: !selectedNews.publish,
   });
   res.status(StatusCodes.OK).send({ success: true, result });
@@ -36,8 +36,8 @@ exports.publishNews = async (req, res) => {
 
 exports.editNews = async (req, res) => {
   const id = req.query.id;
-  const editedItem = await newsCollection.findById(id);
-  console.log(editedItem);
+  const editedItem = await newsModel.findById(id);
+
   const { title, image, content, category } = req.body;
   const updatedDoc = {
     title: title || editedItem.title,
@@ -45,6 +45,6 @@ exports.editNews = async (req, res) => {
     category: category || editedItem.category,
     image: image || editedItem.image,
   };
-  const result = await newsCollection.findByIdAndUpdate(id, updatedDoc);
+  const result = await newsModel.findByIdAndUpdate(id, updatedDoc);
   res.status(StatusCodes.OK).send({ success: true, result });
 };

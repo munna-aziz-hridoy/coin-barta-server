@@ -8,6 +8,7 @@ const dbConnection = require("./config/dbConfig");
 const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
 const newsRouter = require("./routers/news");
+const commentRouter = require("./routers/comment");
 
 const app = express();
 
@@ -21,6 +22,7 @@ const run = async () => {
     app.use("/api/v1/admin", adminRouter);
     app.use("/api/v1/categories", categoryRouter);
     app.use("/api/v1/news", newsRouter);
+    app.use("/api/v1/comments", commentRouter);
   } catch {}
 };
 run().catch(console.dir);
