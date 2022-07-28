@@ -13,7 +13,8 @@ exports.addCategory = async (req, res) => {
 
 exports.getCategory = async (req, res) => {
   const result = await categoryModel.find();
-  res.status(StatusCodes.OK).send({ success: true, categories: result });
+  const sortedData = result.reverse();
+  res.status(StatusCodes.OK).send({ success: true, categories: sortedData });
 };
 
 exports.deleteCategory = async (req, res) => {

@@ -5,7 +5,8 @@ exports.getAllComments = async (req, res) => {
   const newsID = req.query.id;
   const filter = { refNewsId: newsID };
   const result = await commentModel.find(filter);
-  res.status(StatusCodes.OK).send({ success: true, result });
+  const sortedData = result.reverse();
+  res.status(StatusCodes.OK).send({ success: true, result: sortedData });
 };
 
 exports.postComments = async (req, res) => {
@@ -22,7 +23,7 @@ exports.postComments = async (req, res) => {
 
 exports.editComment = async (req, res) => {
   const id = req.query.id;
-  const editedComment = req.body.commen;
+  const editedComment = req.body.comment;
   const result = await commentModel.findByIdAndUpdate(id, {
     comment: editedComment,
   });

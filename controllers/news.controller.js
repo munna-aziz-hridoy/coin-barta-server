@@ -3,8 +3,20 @@ const newsModel = require("../model/news.model");
 
 exports.getAllNews = async (req, res) => {
   const result = await newsModel.find({});
-  res.status(StatusCodes.OK).send({ success: true, result });
+  const sortedData = result.reverse();
+  res.status(StatusCodes.OK).send({ success: true, result: sortedData });
 };
+
+// exports.getCategoryNews = async (req, res) => {
+//   const { category } = req.query;
+//   // console.log(category);
+//   // const result = await newsModel.find({ category });
+//   const result = await newsModel.where({ category });
+
+//   console.log(result);
+//   const sortedData = result.reverse();
+//   res.status(StatusCodes.OK).send({ success: true, result: sortedData });
+// };
 
 exports.getSignleNews = async (req, res) => {
   const id = req.query.id;
