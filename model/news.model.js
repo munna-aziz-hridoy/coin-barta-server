@@ -18,6 +18,10 @@ const newsSchema = mongoose.Schema({
     default: false,
     require: true,
   },
+  category: {
+    type: String,
+    require: true,
+  },
   createDate: {
     type: Date,
     require: true,
