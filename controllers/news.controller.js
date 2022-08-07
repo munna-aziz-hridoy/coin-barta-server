@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const { cloudinary } = require("../utilities/cloudinary");
 const newsModel = require("../model/news.model");
 
 exports.getAllNews = async (req, res) => {
@@ -25,10 +26,18 @@ exports.getSignleNews = async (req, res) => {
 };
 
 exports.postNews = async (req, res) => {
-  const { title, image, content, category } = req.body;
+  const { title, content, category, imgUrlOne, imgUrlTwo } = req.body;
+
+  const uploadResponseOne = await cloudinary.uploader.upload(imgUrlOne, {
+    upload_preset: "coin-barta",
+  });
+  const uploadResponseTwo = await cloudinary.uploader.upload(imgUrlTwo, {
+    upload_preset: "coin-barta",
+  });
+
   const postedNews = new newsModel({
     title,
-    image,
+    images: [uploadResponseOne.url, uploadResponseTwo.url],
     content,
     category,
   });

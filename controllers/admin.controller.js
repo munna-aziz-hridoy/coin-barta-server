@@ -21,7 +21,12 @@ exports.addAdmin = async (req, res) => {
 exports.loginAdmin = async (req, res) => {
   const { email, password } = req.body;
   const user = await adminModel.findOne({ email });
-  const isPasswordMatched = await bcrypt.compare(password, user.password);
+  if (!user) {
+    return res
+      .status(StatusCodes.FORBIDDEN)
+      .send({ success: false, message: "not authorized to login" });
+  }
+  const isPasswordMatched = await bcrypt.compare(password, user?.password);
   if (isPasswordMatched) {
     const token = jwt.sign({ email, role: user.role }, process.env.LOGIN_TOKEN);
     return res.status(StatusCodes.OK).send({ success: true, token });
@@ -65,7 +70,7 @@ exports.updateAdmin = async (req, res) => {
     } else {
       return res
         .status(StatusCodes.FORBIDDEN)
-        .send({ success: false, message: "user not updated ooo" });
+        .send({ success: false, message: "user not updated" });
     }
   }
   if (email && newPassword && oldPassword) {
@@ -94,9 +99,15 @@ exports.updateAdmin = async (req, res) => {
       .status(StatusCodes.FORBIDDEN)
       .send({ success: false, message: "user not updated" });
   }
+  const updatedUserInfo = await adminModel.findOne({ email });
+  const token = jwt.sign(
+    { email: updatedUserInfo?.email, role: updatedUserInfo?.role },
+    process.env.LOGIN_TOKEN
+  );
+
   return res
     .status(StatusCodes.OK)
-    .send({ success: true, message: "user updated" });
+    .send({ success: true, message: "user updated", token });
 };
 
 // check user is admin
