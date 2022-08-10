@@ -10,10 +10,10 @@ const commentSchema = mongoose.Schema({
     require: true,
   },
   createDate: {
-    type: Date,
-    default: () => Date.now(),
+    type: String,
+    default: () => new Date().toLocaleString(),
     require: true,
   },
 });
 
-module.exports = mongoose.model("commentCollection", commentSchema);
+module.exports = mongoose.model("comment-collection", commentSchema);

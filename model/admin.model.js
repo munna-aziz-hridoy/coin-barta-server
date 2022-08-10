@@ -12,9 +12,9 @@ const adminSchema = mongoose.Schema({
   },
   role: { type: String, default: "admin", require: true },
   createdDate: {
-    type: Date,
+    type: String,
     immutable: true,
-    default: () => Date.now(),
+    default: () => new Date().toLocaleString(),
   },
 });
 

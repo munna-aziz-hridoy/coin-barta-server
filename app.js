@@ -24,17 +24,7 @@ const run = async () => {
     app.use("/api/v1/categories", categoryRouter);
     app.use("/api/v1/news", newsRouter);
     app.use("/api/v1/comments", commentRouter);
-    app.post("/testUpload", async (req, res) => {
-      try {
-        const fileStr = req.body.data;
-        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-          upload_preset: "dev-setups",
-        });
-        res.send({ data: uploadResponse });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+ 
   } catch {}
 };
 run().catch(console.dir);

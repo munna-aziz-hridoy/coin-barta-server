@@ -21,11 +21,11 @@ const newsSchema = mongoose.Schema({
     require: true,
   },
   createDate: {
-    type: Date,
+    type: String,
     require: true,
     immutable: true,
-    default: () => Date.now(),
+    default: () => new Date().toLocaleString(),
   },
 });
 
-module.exports = mongoose.model("newsCollection", newsSchema);
+module.exports = mongoose.model("news-collection", newsSchema);

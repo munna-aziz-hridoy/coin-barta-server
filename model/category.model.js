@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+var date = new Date();
+var offset = date.getTimezoneOffset();
+
 const categorySchema = mongoose.Schema({
   name: {
     type: String,
@@ -12,10 +15,10 @@ const categorySchema = mongoose.Schema({
   },
   description: String,
   createdDate: {
-    type: Date,
+    type: String,
     require: true,
     immutable: true,
-    default: () => Date.now(),
+    default: () => new Date().toLocaleString(),
   },
 });
 
