@@ -6,6 +6,15 @@ const { cloudinary } = require("./utilities/cloudinary");
 
 const dbConnection = require("./config/dbConfig");
 
+// const adminCollection = require("./model/admin.model");
+// const newAdmin = new adminCollection({
+//   userName: "coinbarta",
+//   email: "admin@coinbarta.com",
+//   password: "$2b$10$fYTZRrbqd2HhdFExGuPvQuGvghEtkOtkqcKMl2g.WAWYr/bQEiuYS",
+// });
+
+// newAdmin.save();
+
 const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
 const newsRouter = require("./routers/news");
@@ -24,7 +33,6 @@ const run = async () => {
     app.use("/api/v1/categories", categoryRouter);
     app.use("/api/v1/news", newsRouter);
     app.use("/api/v1/comments", commentRouter);
- 
   } catch {}
 };
 run().catch(console.dir);

@@ -22,4 +22,4 @@ const categorySchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("category-collection", categorySchema);
+module.exports = mongoose.model("categoryCollections", categorySchema);

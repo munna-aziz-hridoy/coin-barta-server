@@ -18,4 +18,4 @@ const adminSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("admin-collection", adminSchema);
+module.exports = mongoose.model("adminCollection", adminSchema);

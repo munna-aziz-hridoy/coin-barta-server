@@ -9,26 +9,30 @@ exports.addAdmin = async (req, res) => {
   const { name, email, password } = req.body;
   const hashedPassowrd = await bcrypt.hash(password, 10);
   const admin = new adminModel({
-    userName: name,
+    userName: "Coinbarta",
     email,
     password: hashedPassowrd,
   });
+  // console.log(admin);
   await admin.save();
-  res.send(admin);
+  res.send({ success: true, admin });
 };
 
 // admin login controller
 exports.loginAdmin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   const user = await adminModel.findOne({ email });
   if (!user) {
     return res
       .status(StatusCodes.FORBIDDEN)
       .send({ success: false, message: "not authorized to login" });
   }
+  console.log(user);
   const isPasswordMatched = await bcrypt.compare(password, user?.password);
   if (isPasswordMatched) {
     const token = jwt.sign({ email, role: user.role }, process.env.LOGIN_TOKEN);
+    console.log(token);
     return res.status(StatusCodes.OK).send({ success: true, token });
   }
   return res
@@ -115,6 +119,7 @@ exports.isAdmin = async (req, res) => {
   const { role, email } = req.decoded;
 
   if (role === "admin") {
+    console.log("working");
     return res
       .status(StatusCodes.OK)
       .send({ success: true, admin: true, email });
