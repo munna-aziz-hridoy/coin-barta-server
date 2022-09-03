@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../utilities/cloudinary");
 const newsModel = require("../model/news.model");
+const upload = require("../utilities/multerStorage");
 
 exports.getAllNews = async (req, res) => {
   const result = await newsModel.find({});
@@ -35,15 +36,30 @@ exports.postNews = async (req, res) => {
     upload_preset: "coin-barta",
   });
 
+  // upload(req, res, (err) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     // const uploadedImage = req.file.filename;
+  //     console.log(req);
+  //   }
+  // });
+  console.log(uploadResponseOne.url, uploadResponseTwo.url);
   const postedNews = new newsModel({
     title,
     images: [uploadResponseOne.url, uploadResponseTwo.url],
     content,
     category,
   });
+  console.log(postedNews);
   await postedNews.save();
   res.status(StatusCodes.OK).send({ success: true, news: postedNews });
 };
+
+// exports.postNews = async (req, res) => {
+//   console.log(req.body);
+//   console.log(req.file);
+// };
 
 exports.publishNews = async (req, res) => {
   const id = req.query.id;

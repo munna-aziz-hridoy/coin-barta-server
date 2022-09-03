@@ -6,14 +6,14 @@ const adminModel = require("../model/admin.model");
 // add admin information controller
 
 exports.addAdmin = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
   const hashedPassowrd = await bcrypt.hash(password, 10);
   const admin = new adminModel({
     userName: "Coinbarta",
     email,
     password: hashedPassowrd,
   });
-  // console.log(admin);
+
   await admin.save();
   res.send({ success: true, admin });
 };

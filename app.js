@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 require("dotenv").config();
 const { cloudinary } = require("./utilities/cloudinary");
 
@@ -26,6 +27,7 @@ app.use(cors({ origin: "*", credentials: true }));
 app.options("*", cors({ origin: "*", credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json({ limit: "50mb" }));
+// app.use(express.static("static"));
 dbConnection();
 const run = async () => {
   try {
@@ -36,5 +38,13 @@ const run = async () => {
   } catch {}
 };
 run().catch(console.dir);
+
+app.post("/testimage", (req, res) => {
+  console.log(req.body);
+});
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "static/index.html"));
+// });
 
 module.exports = app;
